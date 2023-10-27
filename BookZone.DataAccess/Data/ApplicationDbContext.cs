@@ -6,8 +6,12 @@
 		{
 		}
 		public DbSet<Category> Categories { get; set; }
+		public DbSet<Product> Products { get; set; }
+		public DbSet<ProductCategory> ProductCategories { get; set; }
 		override protected void OnModelCreating(ModelBuilder modelBuilder)
 		{
+			modelBuilder.Entity<ProductCategory>()
+				.HasKey(pc => new { pc.ProductId, pc.CategoryId });
 			modelBuilder.Entity<Category>()
 				.HasData(
 
@@ -33,6 +37,48 @@
 				new Category { Id = 20, Name = "Humor" },
 				new Category { Id = 21, Name = "Children's" },
 				new Category { Id = 22, Name = "Other" });
+			modelBuilder.Entity<Product>()
+				.HasData(
+				new Product
+				{
+					Id = 1,
+					Title = "The Great Gatsby",
+					Author = "F. Scott Fitzgerald",
+					Description = "A novel about the American Dream",
+					ImageUrl = "https://example.com/book1.jpg",
+					Price = 12.99m,
+					Discount = 0,
+					PriceWithDiscount = 12.99m,
+					Quantity = 20
+					
+				},
+				new Product
+				{
+					Id = 2,
+					Title = "To Kill a Mockingbird",
+					Author = "Harper Lee",
+					Description = "A story of racial injustice in the Deep South",
+					ImageUrl = "https://example.com/book2.jpg",
+					Price = 9.99m,
+					Discount = 20,
+					PriceWithDiscount = 7.99m,
+					Quantity = 15
+				},
+				new Product
+				{
+					Id = 3,
+					Title = "Harry Potter and the Philosopher's Stone",
+					Author = "J.K. Rowling",
+					Description = "The first book in the Harry Potter series",
+					ImageUrl = "https://example.com/book3.jpg",
+					Price = 14.99m,
+					Discount = 10,
+					PriceWithDiscount = 13.49m,
+					Quantity = 8
+				});
+
+
+
 		}
 	}
 }

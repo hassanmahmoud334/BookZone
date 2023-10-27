@@ -1,0 +1,43 @@
+﻿@model Product
+<form method="post">
+	<input asp-for="Id" hidden />
+	<div class="form-group p-3 mt-4">
+		<div class="row pb-2">
+			<div class="col-6">
+				<h2 class="text-primary">
+					Delete Product
+				</h2>
+			</div>
+			<div class="col-6 text-end">
+				<a class="btn btn-outline-primary" asp-controller="Product" asp-action="Index">
+					<i class="bi bi-arrow-left-circle"></i> Back to List
+				</a>
+			</div>
+		</div>
+		<div>
+			<label asp-for="Title" class="control-label text-dark">Title</label>
+			<input asp-for="Title" disabled class="form-control" />
+		</div>
+		<div>
+			<label asp-for="Author" class="control-label text-dark">Author</label>
+			<input asp-for="Author" disabled class="form-control" />
+		</div>
+		<div class="form-group">
+			<label asp-for="Description" class="form-label  text-dark mt-4"></label>
+			<textarea class="form-control" disabled asp-for="Description" placeholder="Description"></textarea>
+		</div>
+		<div>
+			<label asp-for="Quantity" class="control-label text-dark">Quantity</label>
+			<input asp-for="Quantity" disabled class="form-control" />
+		</div>
+
+	</div>
+	<div class="form-group mb-3">
+		<input type="submit" value="Delete" class="btn btn-outline-danger m-lg-3" />
+	</div>
+</form>
+@section Scripts{
+	@{
+		<partial name="_ValidationScriptsPartial" />
+	}
+}

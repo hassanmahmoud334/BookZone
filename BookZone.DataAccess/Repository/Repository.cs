@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,22 +22,23 @@ namespace BookZone.DataAccess.Repository
 			dbSet.Add(entity);
 		}
 
-		public void Delete(T entity)
+		public void Remove(T entity)
 		{
 			dbSet.Remove(entity);
 		}
 
-		public void DeleteRange(IEnumerable<T> entities)
+		public void RemoveRange(IEnumerable<T> entities)
 		{
 			dbSet.RemoveRange(entities);
 		}
 
-		public T Get(System.Linq.Expressions.Expression<Func<T, bool>> filter)
+		public T Get(Expression<Func<T, bool>> filter)
 		{
 			IQueryable<T> query=dbSet;
 			query=query.Where(filter);
-			return query.FirstOrDefault(filter);
+			return query.First(filter);
 		}
+
 
 		public IEnumerable<T> GetAll()
 		{

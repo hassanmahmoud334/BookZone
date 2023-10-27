@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ namespace BookZone.DataAccess.Repository
 	public interface ICategoryRepository : IRepository<Category>
 	{
 		void Update(Category category);
-		void Save();
+		public IEnumerable<SelectListItem> GetSelectList();
+
 	}
 }

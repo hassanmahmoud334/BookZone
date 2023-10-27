@@ -1,4 +1,5 @@
 ﻿using BookZone.DataAccess.Data;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,17 +17,15 @@ namespace BookZone.DataAccess.Repository
 		}
 		public void Update(Category category)
 		{
-			//var obj = _dbContext.Categories.FirstOrDefault(s => s.Id == category.Id);
-			//if (obj != null)
-			//{
-			//	obj.Name = category.Name;
-			//	_dbContext.SaveChanges();
-			//}
-			_dbContext.Update(category);
+			_dbContext.Categories.Update(category);
 		}
-		public void Save()
+		public IEnumerable<SelectListItem> GetSelectList()
 		{
-			_dbContext.SaveChanges();
+			return _dbContext.Categories
+				.Select(c => new SelectListItem { Text = c.Name, Value = c.Id.ToString() })
+				.OrderBy(c => c.Text)
+				.AsNoTracking()
+				.ToList();
 		}
 	}
 }
