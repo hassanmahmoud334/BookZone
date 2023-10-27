@@ -1,4 +1,5 @@
 ﻿using BookZone.DataAccess.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +38,16 @@ namespace BookZone.DataAccess.Repository
 			IQueryable<T> query=dbSet;
 			query=query.Where(filter);
 			return query.First(filter);
+		}
+		public Task<T?> GetFirstOrDefaultAsync(Expression<Func<T, bool>> filter, params Expression<Func<T, object>>[] properties)
+		{
+			if (properties is not null)
+			{
+				IQueryable<T> query = dbSet;
+				query = properties.Aggregate(query, (current, property) => current.Include(property));
+				return query.FirstOrDefaultAsync(filter);
+			}
+			return dbSet.FirstOrDefaultAsync(filter);
 		}
 
 

@@ -1,4 +1,5 @@
 ﻿using BookZone.Models.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace BookZone.DataAccess.Repository
 {
 	public interface IProductRepository : IRepository<Product>
 	{
-		void Update(Product product);
+	 void Update(Product product);
+
 	}
 }

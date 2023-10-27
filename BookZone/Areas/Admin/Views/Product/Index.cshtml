@@ -59,8 +59,13 @@
 					@foreach(var cat in item.ProductCategories)
 					{
 						
-						@(cat.Category.Name + "  ")
-					}
+						@(cat.Category.Name)
+						@if (!cat.Equals(item.ProductCategories.Last()))
+						{
+							@(" , ")
+						}
+
+				}
 				</td>
 				<td class="align-middle">
 					<div class="d-flex justify-content-end">

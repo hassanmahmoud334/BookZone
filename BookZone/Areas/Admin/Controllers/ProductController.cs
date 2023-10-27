@@ -41,13 +41,14 @@ namespace BookZone.Areas.Admin.Controllers
 				return RedirectToAction(nameof(Index));
 		}
 
-		public IActionResult Edit(int? Id)
+		public async Task<IActionResult> Edit(int? Id)
 		{
 			if (Id == null || Id == 0)
 			{
 				return NotFound();
 			}
-			var obj = _unitOfWork.Product.Get(c => c.Id == Id);
+			//var obj = _unitOfWork.Product.Get(c => c.Id == Id);
+			var obj = await _unitOfWork.Product.GetFirstOrDefaultAsync(c=>c.Id == Id,properties: c=>c.ProductCategories);
 			if (obj == null)
 			{
 				return NotFound();
@@ -63,7 +64,8 @@ namespace BookZone.Areas.Admin.Controllers
 				Discount = obj.Discount,
 				PriceWithDiscount = obj.PriceWithDiscount,
 				Quantity = obj.Quantity,
-				Categories = _unitOfWork.Category.GetSelectList()
+				Categories = _unitOfWork.Category.GetSelectList(),
+				SelectedCategories = obj.ProductCategories.Select(c => c.CategoryId).ToList()
 			};
 			return View(product);
 		}
@@ -76,8 +78,8 @@ namespace BookZone.Areas.Admin.Controllers
 				obj.Categories = _unitOfWork.Category.GetSelectList();
 				return View(obj);
 			}
-				_unitOfWork.Product.Update(obj);
-				_unitOfWork.Save();
+				 _unitOfWork.Product.Update(obj);
+				//_unitOfWork.Save();
 				TempData["Success"] = "Product has been updated successfully";
 				return RedirectToAction(nameof(Index));
 		}
