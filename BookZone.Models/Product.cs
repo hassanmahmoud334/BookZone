@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace BookZone.Models
@@ -26,10 +27,7 @@ namespace BookZone.Models
 		public decimal PriceWithDiscount { get; set; }
 		[Range(0, 10000)]
 		public int Quantity { get; set; }
-		[NotMapped]
-		public List<int> SelectedCategories { get; set; } = default!;
-		[NotMapped]
-		public IEnumerable<SelectListItem> Categories { get; set; } = Enumerable.Empty<SelectListItem>();
+		[JsonIgnore]
 		public ICollection<ProductCategory> ProductCategories { get; set; } = new List<ProductCategory>();
 
 	}

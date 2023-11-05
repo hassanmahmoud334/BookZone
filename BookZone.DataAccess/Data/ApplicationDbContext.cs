@@ -1,6 +1,9 @@
-﻿namespace BookZone.DataAccess.Data
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
+namespace BookZone.DataAccess.Data
 { 
-	public class ApplicationDbContext :DbContext
+	public class ApplicationDbContext :IdentityDbContext<IdentityUser>
 	{
 		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
 		{
@@ -8,8 +11,17 @@
 		public DbSet<Category> Categories { get; set; }
 		public DbSet<Product> Products { get; set; }
 		public DbSet<ProductCategory> ProductCategories { get; set; }
+		public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 		override protected void OnModelCreating(ModelBuilder modelBuilder)
 		{
+			base.OnModelCreating(modelBuilder);
+
+			modelBuilder.Entity<Product>()
+				.Property(p => p.Price)
+				.HasColumnType("decimal(18,2)");
+			modelBuilder.Entity<Product>()
+				.Property(p => p.PriceWithDiscount)
+				.HasColumnType("decimal(18,2)");
 			modelBuilder.Entity<ProductCategory>()
 				.HasKey(pc => new { pc.ProductId, pc.CategoryId });
 			modelBuilder.Entity<Category>()

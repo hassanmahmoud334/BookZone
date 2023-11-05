@@ -10,7 +10,7 @@ namespace BookZone.DataAccess.Repository
     public interface IRepository<T> where T : class
     {
         IEnumerable<T> GetAll();
-        T Get(Expression<Func<T,bool>> filter);
+        T Get(Expression<Func<T,bool>> filter, params Expression<Func<T, object>>[] properties);
         Task<T?> GetFirstOrDefaultAsync(Expression<Func<T, bool>> filter, params Expression<Func<T, object>>[] properties);
 
 		void Add(T entity);

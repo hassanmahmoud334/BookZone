@@ -1,6 +1,9 @@
 using BookZone.DataAccess.Data;
 using BookZone.DataAccess.Repository;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using BookZone.Utility;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,9 +11,20 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
 	throw new InvalidOperationException("Connection string is missing");
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
+
+
+builder.Services.AddIdentity<IdentityUser,IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+builder.Services.ConfigureApplicationCookie(options =>
+{
+	options.LoginPath = $"/Identity/Account/Login";
+	options.LogoutPath = $"/Identity/Account/Logout";
+	options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+});
+builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IEmailSender,EmailSender>();
 
 var app = builder.Build();
 
@@ -26,9 +40,9 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
-
+app.MapRazorPages();
 app.MapControllerRoute(
 	name: "default",
 	pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");

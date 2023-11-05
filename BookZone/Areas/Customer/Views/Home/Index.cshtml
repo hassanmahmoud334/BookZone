@@ -1,8 +1,43 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<Product>
+@{
+	ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="row pb-3">
+	@foreach(var p in Model)
+	{
+		<div class="col-lg-3 clo-sm-6">
+			<div class="row p-2">
+				<div class="col-12 p-1">
+					<div class="card border-0 p-3 shadow border-top border-5 rounded" style="background-position:center; height:700px;">
+						<img src="@p.ImageUrl" class="card-img-top rounded" style="background-size: cover; background-position:center; height:350px;" />
+
+						<div class="card-body pb-0">
+							<div class="pl-1">
+								<p class="card-title h5 text-dark opacity-75 text-uppercase text-center">@p.Title</p>
+								<p class="card-title text-info text-center"> by @p.Author</p>
+							</div>
+							<div class="pl-1">
+								<p class="text-dark opacity-75 text-center"> 
+									<span class="text-decoration-line-through">
+										@p.Price.ToString("c")
+									</span>
+								</p>
+							</div>
+							<div class="pl-1">
+								<p class="text-dark opacity-75 text-center">
+									<span>
+										@p.PriceWithDiscount.ToString("c")
+									</span>
+								</p>
+							</div>
+						</div>
+						<div>
+							<a asp-action="Details" asp-route-id="@p.Id" class="btn btn-outline-primary form-control">Details</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	}
 </div>

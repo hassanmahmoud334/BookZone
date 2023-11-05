@@ -1,5 +1,6 @@
-﻿@model Product
-<form method="post">
+﻿@model CreateProductViewModel
+<form method="post" enctype="multipart/form-data">
+	<input asp-for="Product.Id" hidden />
 	<div class="form-group p-3 mt-4">
 		<div class="row pb-2">
 			<div class="col-6">
@@ -13,50 +14,62 @@
 				</a>
 			</div>
 		</div>
-		<div>
-			<label asp-for="Title" class="control-label text-dark">Title</label>
-			<input asp-for="Title" class="form-control" />
-			<span asp-validation-for="Title" class="text-danger"></span>
+		<div class="row pb-2">
+			<div class="col-md-6">
+				<div>
+					<label asp-for="Product.Title" class="control-label text-dark">Title</label>
+					<input asp-for="Product.Title" class="form-control" />
+					<span asp-validation-for="Product.Title" class="text-danger"></span>
+				</div>
+				<div>
+					<label asp-for="Product.Author" class="control-label text-dark">Author</label>
+					<input asp-for="Product.Author" class="form-control" />
+					<span asp-validation-for="Product.Author" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label asp-for="Product.Description" class="form-label  text-dark mt-4"></label>
+					<textarea class="form-control" asp-for="Product.Description" placeholder="Description"></textarea>
+					<span asp-validation-for="Product.Description" class="text-danger"></span>
+				</div>
+				<div>
+					<label asp-for="Product.Price" class="control-label text-dark">Price</label>
+					<input asp-for="Product.Price" class="form-control" />
+					<span asp-validation-for="Product.Price" class="text-danger"></span>
+				</div>
+				<div>
+					<label asp-for="Product.Discount" class="control-label text-dark">Discount</label>
+					<input asp-for="Product.Discount" class="form-control" />
+					<span asp-validation-for="Product.Discount" class="text-danger"></span>
+				</div>
+				<div>
+					<label asp-for="Product.PriceWithDiscount" class="control-label text-dark">Last Price</label>
+					<input asp-for="Product.PriceWithDiscount" class="form-control" />
+					<span asp-validation-for="Product.PriceWithDiscount" class="text-danger"></span>
+				</div>
+				<div>
+					<label asp-for="Product.Quantity" class="control-label text-dark">Quantity</label>
+					<input asp-for="Product.Quantity" class="form-control" />
+					<span asp-validation-for="Product.Quantity" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label asp-for="SelectedCategories" class="control-label text-dark mt-4">Categories</label>
+					<select class="form-select" asp-for="SelectedCategories" asp-items="Model.Categories"
+					data-placeholder="Select Categories">
+						<option></option>
+					</select>
+					<span asp-validation-for="SelectedCategories" class="text-danger"></span>
+				</div>
+				<div>
+					<label asp-for="Product.ImageUrl" class="control-label text-dark mt-4 mb-1">Cover</label>
+					<input id="Cover" type="file" name="file" class="form-control" />
+					<span asp-validation-for="Product.ImageUrl" class="text-danger"></span>
+				</div>
+			</div>
+			<div class="col-md-6 d-flex justify-content-center pt-4 overflow-hidden">
+					<img class="cover-preview d-none" alt="Cover" />
+			</div>
+			
 		</div>
-		<div>
-			<label asp-for="Author" class="control-label text-dark">Author</label>
-			<input asp-for="Author" class="form-control" />
-			<span asp-validation-for="Author" class="text-danger"></span>
-		</div>
-		<div class="form-group">
-			<label asp-for="Description" class="form-label  text-dark mt-4"></label>
-			<textarea class="form-control" asp-for="Description" placeholder="Description"></textarea>
-			<span asp-validation-for="Description" class="text-danger"></span>
-		</div>
-		<div>
-			<label asp-for="Price" class="control-label text-dark">Price</label>
-			<input asp-for="Price" class="form-control" />
-			<span asp-validation-for="Price" class="text-danger"></span>
-		</div>
-		<div>
-			<label asp-for="Discount" class="control-label text-dark">Discount</label>
-			<input asp-for="Discount" class="form-control" />
-			<span asp-validation-for="Discount" class="text-danger"></span>
-		</div>
-		<div>
-			<label asp-for="PriceWithDiscount" class="control-label text-dark">Last Price</label>
-			<input asp-for="PriceWithDiscount" class="form-control" />
-			<span asp-validation-for="PriceWithDiscount" class="text-danger"></span>
-		</div>
-		<div>
-			<label asp-for="Quantity" class="control-label text-dark">Quantity</label>
-			<input asp-for="Quantity" class="form-control" />
-			<span asp-validation-for="Quantity" class="text-danger"></span>
-		</div>
-		<div class="form-group">
-			<label asp-for="SelectedCategories" class="form-label text-dark mt-4">Categories</label>
-			<select class="form-select" asp-for="SelectedCategories" asp-items="Model.Categories"
-			data-placeholder="Select Categories">
-				<option></option>
-			</select>
-			<span asp-validation-for="SelectedCategories" class="text-danger"></span>
-		</div>
-
 	</div>
 	<div class="form-group mb-3">
 		<input type="submit" value="Create" class="btn btn-outline-primary m-lg-3" />
@@ -66,4 +79,11 @@
 	@{
 		<partial name="_ValidationScriptsPartial" />
 	}
+	<script>
+		$(document).ready(function () {
+			$('#Cover').on('change', function () {
+				$('.cover-preview').attr('src', window.URL.createObjectURL(this.files[0])).removeClass('d-none');
+			});
+		});
+	</script>
 }

@@ -1,0 +1,83 @@
+﻿@model Product
+@{
+	ViewData["Title"] = "Details";
+}
+<form method="post">
+	<div class="card shadow border-0 mt-4 mb-4">
+		<div class="card text-white bg-primary bg-gradient text-light py-4">
+			<div class="row">
+				<div class="col-12 text-center">
+					<h3 class="text-white text-uppercase">@Model.Title</h3>
+					<p class="text-white-50 fw-semibold mb-0">by @Model.Author</p>
+				</div>
+
+			</div>
+		</div>
+		<div class="card-body">
+			<div class="py-3">
+				<div class="row">
+					<div class="col-6 col-md-2 offset-lg-1 pb-1">
+						<a asp-action="Index" class="btn btn-outline-primary bg-gradient mb-5 fw-semibold btn-sm text-uppercase">
+							<small class="bi bi-arrow-left-circle">
+								back to home
+							</small>
+						</a>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12 col-lg-3 offset-lg-1 text-center mb-3">
+						<img src="@Model.ImageUrl" width="100%" class="img-fluid rounded" />
+					</div>
+					<div class="col-12 col-lg-6 offset-lg-1">
+						<div class="col-12 col-md-6 pb-4">
+							<h6 class="fw-bold text-uppercase">Category:</h6>
+							<p class="text-muted">
+								@foreach (var cat in Model.ProductCategories)
+								{
+									<span class="text-primary">@cat.Category.Name</span>
+									@if (!cat.Equals(Model.ProductCategories.Last()))
+									{
+										<span class="text-muted">,</span>
+									}
+								}
+							</p>
+						</div>
+						<div class="row ps-2">
+							<div class="col-12">
+								<p class="text-muted">@Html.Raw(Model.Description)</p>
+							</div>
+						</div>
+						<div class="row ps-2">
+							<div class="col-12">
+								<h6 class="text-dark text-opacity-50 pb-2 fw-bold">
+									Price:
+									<span class="text-decoration-line-through text-muted">
+										@Model.Price.ToString("c")
+									</span>
+									&nbsp; &nbsp;
+									<span class="text-success">
+										@Model.PriceWithDiscount.ToString("c")
+									</span>
+								</h6>
+							</div>
+							<div class="row">
+								<div class="col-12 text-center">
+									<div class="bg-white border-bottom p-2">
+										<div class="text-dark text-opacity-50 fw-semibold">Quantity: @Model.Quantity</div>
+									</div>
+								</div>
+							</div>
+							<div class="row mt-4">
+								<div class="col-12 text-center">
+									<button type="submit" class="btn btn-primary btn-lg">
+										<i class="bi bi-cart-plus"></i> Add to Cart
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

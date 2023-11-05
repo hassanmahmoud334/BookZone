@@ -33,10 +33,10 @@ namespace BookZone.DataAccess.Repository
 			dbSet.RemoveRange(entities);
 		}
 
-		public T Get(Expression<Func<T, bool>> filter)
+		public T Get(Expression<Func<T, bool>> filter, params Expression<Func<T, object>>[] properties)
 		{
 			IQueryable<T> query=dbSet;
-			query=query.Where(filter);
+			query= query = properties.Aggregate(query, (current, property) => current.Include(property));
 			return query.First(filter);
 		}
 		public Task<T?> GetFirstOrDefaultAsync(Expression<Func<T, bool>> filter, params Expression<Func<T, object>>[] properties)
